@@ -16,6 +16,10 @@ import Register from '../pages/Auth/Register';
 import { AdminDashboard } from '../pages/Admin/AdminDashboard';
 import AdminLayout from '../layouts/AdminLayout';
 import { AdminUser } from '../pages/Admin/AdminUser';
+import Add from '../components/Admin/User/Add';
+
+import AdminCategory from '../pages/Admin/AdminCategory';
+import AdminProduct from '../pages/Admin/AdminProduct';
 
 const router = createBrowserRouter([
     {
@@ -91,6 +95,33 @@ const router = createBrowserRouter([
                     (
                         // <AdminRoute>
                             <AdminUser />,
+                        // </AdminRoute>
+                    )
+            },
+            {
+                path: `${ROUTES.ADMIN_USERS_ADD}`,
+                element:
+                    (
+                        // <AdminRoute>
+                            <Add />
+                        // </AdminRoute>
+                    )
+            },
+            {
+                path: `${ROUTES.ADMIN_PRODUCTS}`,
+                element:
+                    (
+                        // <AdminRoute>
+                            <AdminProduct />
+                        // </AdminRoute>
+                    )
+            },
+            {
+                path: `${ROUTES.ADMIN_CATEGORIES}`,
+                element:
+                    (
+                        // <AdminRoute>
+                            <AdminCategory />
                         // </AdminRoute>
                     )
             },

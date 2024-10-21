@@ -1,0 +1,228 @@
+import React, { useState, useEffect } from 'react'
+import ROUTES from '../../../routes'
+import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form';
+import Loader from '../../Loader';
+
+
+export default function List() {
+    const [loading, setLoading] = useState(false);
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+
+    useEffect(() => {
+        setLoading(true)
+        if (loading) <Loader />
+        try {
+            fetch(`${import.meta.env.VITE_BASE_URL}/api/products`) // api for the get request
+                .then(response => response.json())
+                .then(data => setProducts(data));
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+
+        try {
+            fetch(`${import.meta.env.VITE_BASE_URL}/api/categories`) // api for the get request
+                .then(response => response.json())
+                .then(data => setCategories(data));
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+
+    }, [])
+    console.log('products ', products);
+    const [isFormVisible, setIsFormVisible] = useState(false); // Controls the visibility of the form
+    const [editingProduct, setEditingProduct] = useState(null); // Holds the product being edited
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+    // Show form to add new user
+    const handleAddProduct = () => {
+        setIsFormVisible(true);
+        setEditingProduct(null); // Clear editing user
+        reset(); // Clear the form for new user        
+    };
+
+    // Add or update product
+    const onSubmit = (data) => {
+        console.log(data);
+        if (editingProduct) {
+            console.log(editingProduct);
+            fetch(`${import.meta.env.VITE_BASE_URL}/api/product`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response=>response.json())
+            .then(data=>{
+                console.log(data)
+                setIsFormVisible(false);
+            })
+            // Edit existing product
+            setProducts(
+                products.map((product) =>
+                    product._id == editingProduct._id ? { ...data } : product
+                )
+            );
+            setEditingProduct(null);
+        } else {
+            // Add new product
+            try {
+                fetch(`${import.meta.env.VITE_BASE_URL}/api/product/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response=>response.json())
+                .then(data=>{
+                    console.log(data)
+                    setIsFormVisible(false);
+                })
+
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setProducts([...products, { ...data}]);
+            }
+        }
+        reset(); // Reset form after submission
+    };
+
+    // Edit product (populate form)
+    const handleEditProduct = (product) => {
+        setIsFormVisible(true); // Show the form
+        setEditingProduct(product);
+        reset(product); // Populate the form with product data
+    };
+
+    // Delete product
+    const handleDeleteProduct = (id) => {
+        try {
+            fetch(`${import.meta.env.VITE_BASE_URL}/api/product/${id}`, {
+                method: 'DELETE'                
+            })
+            .then(response=>response.json())
+            .then(data=>{
+                console.log(data)
+                setIsFormVisible(false);
+            })
+
+        } catch (err) {
+            console.log(err);
+        } finally {
+            console.log(id);
+            setProducts(products && products.filter((product) => product._id != id));
+        }        
+    };
+
+    return (
+        <div className="p-6">
+            <div className='flex justify-between items-center py-2'>
+                <h2 className="text-xl font-bold mb-4">Manage Products</h2>
+                <button className="bg-blue-500 text-white px-3 py-1 rounded btn" onClick={handleAddProduct}>Add Product</button>
+            </div>
+            {/* Add/Edit Product Form */}
+            {isFormVisible && (
+                <form onSubmit={handleSubmit(onSubmit)} className="mb-6">
+                    <div className="mb-2">
+                        <label className="block mb-1">Product Name</label>
+                        <input
+                            {...register('name', { required: 'Product name is required' })}
+                            className={`p-2 border rounded w-full ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Product Name"
+                        />
+                        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Price</label>
+                        <input
+                            type="number"
+                            {...register('price', { required: 'Price is required', min: 1 })}
+                            className={`p-2 border rounded w-full ${errors.price ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Price"
+                        />
+                        {errors.price && <p className="text-red-500">{errors.price.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Category</label>
+                        <select       
+                        className={`p-2 border rounded w-full ${errors.category ? 'border-red-500' : 'border-gray-300'}`}                  
+                        {...register('category', { required: 'Category is required' })}
+
+                        >
+                            <option value="">Seelct One</option>
+                            {
+                                categories && categories.map((cat, i)=> <option value={cat.name}>{cat.name}</option> )
+                            }
+                        </select>                       
+                        {errors.category && <p className="text-red-500">{errors.category.message}</p>}
+                    </div>
+
+                    <button
+                        type="submit"
+                        className={`py-2 px-4 rounded text-white ${editingProduct ? 'bg-blue-500' : 'bg-green-500'}`}
+                    >
+                        {editingProduct ? 'Save Changes' : 'Add Product'}
+                    </button>
+                    {/* {editingProduct && ( */}
+                        <button
+                            type="button"                            
+                            onClick={() => { reset(); setEditingProduct(null); setIsFormVisible(false); }}
+                            className="py-2 px-4 ml-2 rounded bg-gray-500 text-white"
+                        >
+                            Cancel
+                        </button>
+                    {/* )} */}
+                </form>
+            )}
+            {/* Products Table */}
+            {!isFormVisible && (
+                <table className="min-w-full bg-white rounded-lg shadow-md">
+                    <thead>
+                        <tr className="bg-gray-200">
+                            {/* <th className="text-left p-2">ID</th> */}
+                            <th className="text-left p-2">Name</th>
+                            <th className="text-left p-2">Price</th>
+                            <th className="text-left p-2">Category</th>
+                            <th className="p-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products && products.map((product) => (
+                            <tr key={product.id} className="border-b">
+                                {/* <td className="p-2">{product.id}</td> */}
+                                <td className="p-2">{product.name}</td>
+                                <td className="p-2">${product.price}</td>
+                                <td className="p-2">{product.category}</td>
+                                <td className="p-2 text-center">
+                                    <button
+                                        onClick={() => handleEditProduct(product)}
+                                        className="bg-yellow-500 text-white py-1 px-3 mr-2 rounded"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeleteProduct(product._id)}
+                                        className="bg-red-500 text-white py-1 px-3 rounded"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+}

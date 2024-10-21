@@ -11,10 +11,14 @@ export const SidebarComponent = () => {
                         <Link to={ROUTES.ADMIN_DASHBOARD} className="hover:bg-gray-700 p-2 block rounded">Dashboard</Link>
                     </li>
                     <li className="mb-4">
-                        <Link to={ROUTES.ADMIN_USERS} className="hover:bg-gray-700 p-2 block rounded">Manage Users</Link>
+                        <Link to={ROUTES.ADMIN_CATEGORIES} className="hover:bg-gray-700 p-2 block rounded">Manage Category</Link>
                     </li>
                     <li className="mb-4">
-                        <Link to="/manage-products" className="hover:bg-gray-700 p-2 block rounded">Manage Products</Link>
+                        <Link to={ROUTES.ADMIN_PRODUCTS} className="hover:bg-gray-700 p-2 block rounded">Manage Products</Link>
+                    </li>
+                    
+                    <li className="mb-4">
+                        <Link to={ROUTES.ADMIN_USERS} className="hover:bg-gray-700 p-2 block rounded">Manage Users</Link>
                     </li>
                     <li className="mb-4">
                         <Link to="/manage-orders" className="hover:bg-gray-700 p-2 block rounded">Manage Orders</Link>

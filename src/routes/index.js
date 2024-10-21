@@ -11,7 +11,10 @@ export const ROUTES = {
         DYNAMIC: (id)=>`/course/${id}`,
     },
     ADMIN_DASHBOARD: "/admin/dashboard",
-    ADMIN_USERS: "/admin/users"
+    ADMIN_USERS: "/admin/users",
+    //ADMIN_USERS_ADD: "/admin/user/add",
+    ADMIN_PRODUCTS: "/admin/products",
+    ADMIN_CATEGORIES: "/admin/categories",
 };
 
 export default ROUTES;
