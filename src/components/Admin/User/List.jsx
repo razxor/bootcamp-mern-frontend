@@ -29,28 +29,25 @@ export default function List() {
     }, [])
 
     // Add or update user
-    const onSubmit = (data) => {  
-        if (editingUser) {            
+    const onSubmit = (data) => {
+        if (editingUser) {
+            console.log(editingUser);
+            console.log(data);
             // Edit existing user
-            const response = fetch(`${import.meta.env.VITE_BASE_URL}/api/user`, {
+            fetch(`${import.meta.env.VITE_BASE_URL}/api/user`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to add user');
-            }
-
-            const result = response.json();
-
-            console.log('User added:', result);
-            setUsers(
-                users.map((user) => (user._id == editingUser._id ? { ...data  } : user))
-            );
-            setEditingUser(null);
+            }).then(response => response.json())
+                .then(data => {
+                    setUsers(
+                        users && users.map((user) => (user._id == editingUser._id ? { ...data } : user))
+                    );
+                    setIsFormVisible(false);
+                    setEditingUser(null);
+                });
         } else {
             // Add new user
             try {
@@ -74,7 +71,7 @@ export default function List() {
                 console.log(err);
             } finally {
                 //setLoading(false);
-                setUsers([...users, { ...data}]);
+                setUsers([...users, { ...data }]);
             }
         }
         reset(); // Reset form after submission
@@ -92,19 +89,19 @@ export default function List() {
     const handleDeleteUser = (id) => {
         try {
             fetch(`${import.meta.env.VITE_BASE_URL}/api/user/${id}`, {
-                method: 'DELETE'                
+                method: 'DELETE'
             })
-            .then(response=>response.json())
-            .then(data=>{                
-                setIsFormVisible(false);
-            })
+                .then(response => response.json())
+                .then(data => {
+                    setIsFormVisible(false);
+                })
 
         } catch (err) {
             console.log(err);
         } finally {
             setUsers(users.filter((user) => user._id != id));
-        }    
-        
+        }
+
     };
 
     // Show form to add new user
@@ -142,6 +139,7 @@ export default function List() {
                         <label className="block mb-1">Email</label>
                         <input
                             type="email"
+                            disabled
                             {...register('email', { required: 'Email is required', pattern: /^\S+@\S+$/i })}
                             className={`p-2 border rounded w-full ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                             placeholder="User Email"
@@ -207,12 +205,16 @@ export default function List() {
                                             >
                                                 Edit
                                             </button>
-                                            <button
-                                                onClick={() => handleDeleteUser(user._id)}
-                                                className="bg-red-500 text-white py-1 px-3 rounded"
-                                            >
-                                                Delete
-                                            </button>
+                                            {
+                                                user.role != 'admin' && (
+                                                    <button
+                                                        onClick={() => handleDeleteUser(user._id)}
+                                                        className="bg-red-500 text-white py-1 px-3 rounded"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                )
+                                            }
                                         </td>
                                     </tr>
                                 )
