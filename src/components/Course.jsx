@@ -9,9 +9,11 @@ import useSWR from 'swr';
 const fetcher = (url) => fetch(import.meta.env.VITE_BASE_URL + url).then((res) => res.json());
 
 export const Course = () => {
-    const { data, error, isLoading } = useSWR('/api/courses', fetcher);
+    const { data, error, isLoading } = useSWR('/api/products', fetcher);
     if (isLoading) return <Loader />;
     if (error) return <p>Error loading course: {error.message}</p>;
+
+    console.log(data);
     // useEffect(()=>{
     //     const 
     // }, [])
@@ -30,7 +32,7 @@ export const Course = () => {
                     data.map((item, i) => {
                         return (
                             <div className="col-span-1" key={i}>
-                                <SingleCourse course={item} />
+                                <SingleCourse book={item} />
                             </div>
                         )
                     })

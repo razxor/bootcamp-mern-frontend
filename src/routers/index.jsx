@@ -20,6 +20,7 @@ import Add from '../components/Admin/User/Add';
 
 import AdminCategory from '../pages/Admin/AdminCategory';
 import AdminProduct from '../pages/Admin/AdminProduct';
+import { UserDashboard } from '../pages/User/UserDashboard';
 
 const router = createBrowserRouter([
     {
@@ -57,6 +58,19 @@ const router = createBrowserRouter([
                     )
             },
 
+            // user dashboard
+            {
+                path: `${ROUTES.USER_DASHBOARD}`,
+                element:
+                    (
+                        <PrivateRoute>
+                            <UserDashboard />
+                        </PrivateRoute>
+                    )
+            },            
+            
+
+
             // {
             //     path: `${ROUTES.ABOUT}`,
             //     element: <About />,
@@ -77,52 +91,44 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: `${ROUTES.HOME}`,
+        path: `${ROUTES.ADMIN}`,
         element: <AdminLayout />,
         children: [
             {
                 path: `${ROUTES.ADMIN_DASHBOARD}`,
                 element:
                     (
-                        // <AdminRoute>
+                        <AdminRoute>
                             <AdminDashboard />,
-                        // </AdminRoute>
+                        </AdminRoute>
                     )
             },
             {
                 path: `${ROUTES.ADMIN_USERS}`,
                 element:
                     (
-                        // <AdminRoute>
+                        <AdminRoute>
                             <AdminUser />,
-                        // </AdminRoute>
+                        </AdminRoute>
                     )
             },
-            {
-                path: `${ROUTES.ADMIN_USERS_ADD}`,
-                element:
-                    (
-                        // <AdminRoute>
-                            <Add />
-                        // </AdminRoute>
-                    )
-            },
+            
             {
                 path: `${ROUTES.ADMIN_PRODUCTS}`,
                 element:
                     (
-                        // <AdminRoute>
+                        <AdminRoute>
                             <AdminProduct />
-                        // </AdminRoute>
+                        </AdminRoute>
                     )
             },
             {
                 path: `${ROUTES.ADMIN_CATEGORIES}`,
                 element:
                     (
-                        // <AdminRoute>
+                        <AdminRoute>
                             <AdminCategory />
-                        // </AdminRoute>
+                        </AdminRoute>
                     )
             },
         ]

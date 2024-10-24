@@ -7,65 +7,86 @@ import { useForm } from "react-hook-form";
 
 
 const Register = () => {
-    const { createUser, updateUserProfile, setRegistrationInProgress } = useContext(AuthContext);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
     const [serror, setSerror] = useState("")
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = async payload => {
-        const { fullname, email, password, photo } = payload
-        setRegistrationInProgress(true)
-        try {
-            await createUser(email, password)
-                .then(async (result) => {
-                    if (result) {
-                        await handleUserProfile(fullname, email, photo);
-                        // Sign Up insert into DB    
-                        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/signup`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ ...payload, uid: result.user.uid, isAdmin: false })
-                        })
-
-                        if (!response.ok) {
-                            throw new Error("Failed to fetch");
+    const onSubmit = async payload => {        
+        try {                       
+        const {fullname, email, password, photo} = payload 
+            await createUser(payload)
+            .then((result) => {  
+                if(result){
+                    handleUserProfile(fullname, email, photo);
+                    toast.success(`User Registration Successful`, { position: "top-right", });
+                    navigate(ROUTES.HOME);                                                                           
+                }                
+            })
+            .catch((error) => {
+                if (error.code === "auth/account-exists-with-different-credential") {
+                    firebaseAuth.fetchSignInMethodsForEmail(email).then((methods) => {
+                        if (methods.includes("google.com")) {
+                            setSerror("An account with this email already exists with Google. Please log in with Google.");
+                        } else if (methods.includes("facebook.com")) {
+                            setSerror("An account with this email already exists with Facebook. Please log in with Facebook.");
+                        } else {
+                            setSerror("An account with this email exists under a different method. Please use the same method to log in.");
                         }
-                        const data = await response.json()
-                        toast.success(`User Registration Successful`, { position: "top-right", });
-                        setRegistrationInProgress(false)
-
-                        navigate(ROUTES.HOME);
-                    }
-                })
-                .catch((error) => {
-                    if (error.code === "auth/account-exists-with-different-credential") {
-                        firebaseAuth.fetchSignInMethodsForEmail(email).then((methods) => {
-                            if (methods.includes("google.com")) {
-                                setSerror("An account with this email already exists with Google. Please log in with Google.");
-                            } else if (methods.includes("facebook.com")) {
-                                setSerror("An account with this email already exists with Facebook. Please log in with Facebook.");
-                            } else {
-                                setSerror("An account with this email exists under a different method. Please use the same method to log in.");
-                            }
-                        });
-                    } else {
-                        setSerror(error.message); // Handle other errors
-                    }
-                });
-        } catch (err) {
+                    });
+                } else {
+                    setSerror(error.message); // Handle other errors
+                }
+            });            
+          } catch (err) {
             console.log(err);
-            setRegistrationInProgress(false)
-        } finally {
+          } finally {
             //setLoading(false);
-        }
+          }
     };
 
-    const handleUserProfile = async (name, email, photo) => {
-        const profile = { displayName: name, email: email, photoURL: photo };
+    // const handleRegister = (event) => {
+    //     event.preventDefault();
+    //     // const name = event.target.name.value;
+    //     // console.log(name);
 
-        await updateUserProfile(profile)
+    //     const form = new FormData(event.currentTarget);
+    //     console.log(form);
+
+    //     const name = form.get("name");
+    //     const photo = form.get("photo");
+    //     const email = form.get("email");
+    //     const password = form.get("password");
+    //     console.log(name, photo, email, password);
+
+    //     createUser(email, password)
+    //         .then((result) => {
+    //             console.log(result.user);
+    //             handleUserProfile(name, photo);
+    //             toast.success(`User Registration Successful`, { position: "top-right", });
+    //             navigate(ROUTES.HOME);
+    //         })
+    //         .catch((error) => {
+    //             if (error.code === "auth/account-exists-with-different-credential") {
+    //                 firebaseAuth.fetchSignInMethodsForEmail(email).then((methods) => {
+    //                     if (methods.includes("google.com")) {
+    //                         setSerror("An account with this email already exists with Google. Please log in with Google.");
+    //                     } else if (methods.includes("facebook.com")) {
+    //                         setSerror("An account with this email already exists with Facebook. Please log in with Facebook.");
+    //                     } else {
+    //                         setSerror("An account with this email exists under a different method. Please use the same method to log in.");
+    //                     }
+    //                 });
+    //             } else {
+    //                 setSerror(error.message); // Handle other errors
+    //             }
+    //         });
+    // };
+
+    const handleUserProfile = (name, email, photo) => {
+        const profile = { displayName: name, email : email, photoURL: photo };
+
+        updateUserProfile(profile)
             .then(() => { })
             .catch((error) => {
                 console.log(error);
@@ -76,7 +97,7 @@ const Register = () => {
             <div className="bg-no-repeat bg-cover bg-center relative"><div className="absolute bg-gradient-to-b from-green-500 to-green-400 opacity-75 inset-0 z-0"></div>
                 <div className="min-h-screen sm:flex sm:flex-row mx-0 justify-center">
                     <div className="flex-col flex  self-center p-10 sm:max-w-5xl xl:max-w-2xl  z-10">
-                        <div className="self-start hidden lg:flex flex-col  text-white">
+                    <div className="self-start hidden lg:flex flex-col  text-white">                            
                             <h1 className="mb-3 font-bold text-5xl">Hi! Welcome Back </h1>
                             <p className="pr-3 text-justify">This is an online selling site is a digital platform where businesses or individuals can showcase and sell products or services to a wide audience via the internet. It includes features like product listings, secure payment processing, and order management, allowing customers to browse, purchase, and receive items conveniently from anywhere.</p>
                         </div>
@@ -100,26 +121,26 @@ const Register = () => {
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700 tracking-wide">Name</label>
                                         <input
-                                            className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
-                                            type="text"
+                                            className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"                                            
+                                            type="text"                                            
                                             placeholder="Your Name"
-                                            autoComplete="on"
-                                            {...register('fullname', { required: true })}
-                                            aria-invalid={errors.fullname ? "true" : "false"}
+                                            autoComplete="on"   
+                                            {...register('fullname', {required:true})}    
+                                            aria-invalid={errors.fullname ? "true" : "false"}                                      
                                         />
-                                        {errors.fullname?.type === 'required' && <small role="alert" className="text-red-500">Your name is required</small>}
+                                         {errors.fullname?.type === 'required' && <small role="alert" className="text-red-500">Your name is required</small>}
                                     </div>
 
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700 tracking-wide">Photo URL</label>
                                         <input
-                                            className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
-                                            type="text"
+                                            className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"                                            
+                                            type="text"                                            
                                             placeholder="Photo URL"
                                             autoComplete="on"
                                             {...register('photo')}
-                                        // aria-invalid={errors.photo ? "true" : "false"}                                      
-                                        />
+                                            // aria-invalid={errors.photo ? "true" : "false"}                                      
+                                        />                                         
 
                                     </div>
 
@@ -133,9 +154,9 @@ const Register = () => {
                                             placeholder="email@example.com"
                                             autoComplete="on"
                                             {...register('email', { required: "Email address is required" })}
-                                            aria-invalid={errors.email ? "true" : "false"}
+                                            aria-invalid={errors.email ? "true" : "false"} 
                                         />
-                                        {errors.email?.type === 'required' && <small role="alert" className="text-red-500">{errors.email?.message}</small>}
+                                         {errors.email?.type === 'required' && <small role="alert" className="text-red-500">{errors.email?.message}</small>}
 
                                     </div>
 
@@ -150,11 +171,11 @@ const Register = () => {
                                             name="password"
                                             placeholder="Password"
                                             autoComplete="on"
-                                            {...register('password', { required: true })}
-                                            aria-invalid={errors.password ? "true" : "false"}
+                                            {...register('password', {required:true})}
+                                            aria-invalid={errors.password ? "true" : "false"}                                      
                                         />
-                                        {errors.password?.type === 'required' && <small role="alert" className="text-red-500">Password is required</small>}
-
+                                         {errors.password?.type === 'required' && <small role="alert" className="text-red-500">Password is required</small>}
+                                        
                                     </div>
 
                                     <div className="flex items-center align-middle">

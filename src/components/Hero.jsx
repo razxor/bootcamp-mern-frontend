@@ -12,7 +12,7 @@ export const Hero = () => {
                 </p>
                 <div className='flex gap-5 mt-6 lg:mb-1'>
                     <Link className='bg-orange-500 px-6 w-full sm:w-full lg:w-52 hover:bg-lime-500 py-4 rounded text-white text-lg font-bold text-center' to={ROUTES.COURSES}>
-                        <i className="fa-solid fa-cart-shopping"></i> Enroll Now
+                        <i className="fa-solid fa-cart-shopping"></i> Buy Now
                     </Link>
                 </div>
             </div>

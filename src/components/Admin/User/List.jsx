@@ -41,13 +41,13 @@ export default function List() {
                 },
                 body: JSON.stringify(data)
             }).then(response => response.json())
-                .then(data => {
-                    setUsers(
-                        users && users.map((user) => (user._id == editingUser._id ? { ...data } : user))
-                    );
+                .then(data => {                    
                     setIsFormVisible(false);
                     setEditingUser(null);
                 });
+                setUsers(
+                    users && users.map((user) => (user._id == editingUser._id ? { ...data } : user))
+                );
         } else {
             // Add new user
             try {

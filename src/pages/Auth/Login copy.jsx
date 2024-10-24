@@ -6,53 +6,61 @@ import { toast } from 'react-toastify';
 import { useForm } from "react-hook-form";
 
 export const Login = () => {
-    const { user,setUser,signIn, dBSignIn, loginWithGoogle, githubSignIn } = useContext(AuthContext);
+    const { user, signIn, dBSignIn, loginWithGoogle, githubSignIn } = useContext(AuthContext);
     const [serror, setSerror] = useState("")
     const navigate = useNavigate();
     const location = useLocation();
 
+    console.log(user);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async payload => {
         try {
-            const { email, password } = payload
+            const {email, password} = payload
             signIn(email, password)
-                .then( async (result) => {
-                    console.log('user = ', result.user);                    
-                    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/login`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(payload)
-                    });
-                    
-                    if (!response.ok) {
-                        //throw new Error('Failed to sign up');
-                        toast.error('Invalid email or password');
-                    }
-
-                    const data = await response.json();
-                    data && setUser(data.user)
-
-                    toast.success("User Login Successful", {
-                        position: "top-right",
-                    });
-                    
-                    if (data.user.isAdmin) {
-                        navigate( ROUTES.ADMIN_DASHBOARD)
-                    } else {
-                        navigate(ROUTES.USER_DASHBOARD)
-                    }                    
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setSerror(error.message)
+            .then((result) => {
+                console.log(result.user);
+                toast.success("User Login Successful", {
+                    position: "top-right",
                 });
-        } catch (err) {
+                navigate(location?.state ? location.state : ROUTES.COURSES);
+            })
+            .catch((error) => {
+                console.log(error);
+                setSerror(error.message)
+            });
+
+            // const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/login`, {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json'
+            //   },
+            //   body: JSON.stringify(payload)              
+            // });
+      
+            // console.log(response);
+            // if (!response.ok) {
+            //   //throw new Error('Failed to sign up');
+            //   toast.error('Invalid email or password');
+            // }
+      
+            // const result = await response.json();
+            // result && dBSignIn(result.user)        
+            // toast.success("User Login Successful", {
+            //     position: "top-right",
+            // });
+            
+            // if(result.user.role=='admin'){
+            //     navigate(location?.state ? location.state : ROUTES.ADMIN_DASHBOARD)
+            // } else{
+            //     navigate(location?.state ? location.state : ROUTES.USER_DASHBOARD)
+            // }
+
+            
+          } catch (err) {
             console.log(err);
-        } finally {
+          } finally {
             //setLoading(false);
-        }
+          }
     }
 
     const handleLogin = (event) => {
@@ -115,7 +123,7 @@ export const Login = () => {
                 <div className="absolute bg-gradient-to-b from-green-500 to-green-400 opacity-75 inset-0 z-0"></div>
                 <div className="min-h-screen sm:flex sm:flex-row mx-0 justify-center">
                     <div className="flex-col flex  self-center p-10 sm:max-w-5xl xl:max-w-2xl  z-10">
-                        <div className="self-start hidden lg:flex flex-col  text-white">
+                        <div className="self-start hidden lg:flex flex-col  text-white">                            
                             <h1 className="mb-3 font-bold text-5xl">Hi! Welcome Back </h1>
                             <p className="pr-3 text-justify">This is an online selling site is a digital platform where businesses or individuals can showcase and sell products or services to a wide audience via the internet. It includes features like product listings, secure payment processing, and order management, allowing customers to browse, purchase, and receive items conveniently from anywhere.</p>
                         </div>
@@ -138,25 +146,25 @@ export const Login = () => {
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700 tracking-wide">Email</label>
                                         <input className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
-                                            type="email" placeholder="mail@gmail.com"
-                                            name='email'
-                                            id='email'
-                                            {...register('email', { required: "Email is required" })}
-                                        />
-                                        {errors.email?.type && <small role="alert" className="text-red-500">{errors.email?.message}</small>}
+                                         type="email" placeholder="mail@gmail.com" 
+                                         name='email'
+                                         id='email'
+                                         {...register('email', {required:"Email is required"})}
+                                         />
+                                         {errors.email?.type && <small role="alert" className="text-red-500">{errors.email?.message}</small>}
                                     </div>
                                     <div className="space-y-2">
                                         <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">
                                             Password
                                         </label>
-                                        <input
-                                            className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
-                                            type="password" placeholder="Enter your password"
-                                            name='password'
-                                            id='password'
-                                            {...register('password', { required: "Password is required" })}
+                                        <input 
+                                        className="w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400" 
+                                        type="password" placeholder="Enter your password" 
+                                        name='password'
+                                        id='password'
+                                        {...register('password', {required:"Password is required"})}
                                         />
-                                        {errors.password?.type && <small role="alert" className="text-red-500">{errors.password?.message}</small>}
+                                         {errors.password?.type && <small role="alert" className="text-red-500">{errors.password?.message}</small>}
                                     </div>
                                     {/* <div className="flex items-center justify-between">
                                     <div className="flex items-center">

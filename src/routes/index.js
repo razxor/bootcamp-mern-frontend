@@ -2,17 +2,23 @@ export const ROUTES = {
     LOGIN: "/login",
     REGISTER: "/signup",
     HOME: "/",
-    COURSES: "/courses",
+    COURSES: "/products",
     ABOUT: "/about",
     BLOG: "/blog",
     FAQ: "/faq",
     SINGLE_COURSE:{
-        STATIC: "/course/:id",
-        DYNAMIC: (id)=>`/course/${id}`,
+        STATIC: "/product/:id",
+        DYNAMIC: (id)=>`/product/${id}`,
     },
+
+    USER: "/user",
+    USER_DASHBOARD: "/user/dashboard",        
+    PURCHASED_PRODUCTS: "/user/orders",    
+
+
+    ADMIN: "/admin",
     ADMIN_DASHBOARD: "/admin/dashboard",
-    ADMIN_USERS: "/admin/users",
-    //ADMIN_USERS_ADD: "/admin/user/add",
+    ADMIN_USERS: "/admin/users",    
     ADMIN_PRODUCTS: "/admin/products",
     ADMIN_CATEGORIES: "/admin/categories",
 };

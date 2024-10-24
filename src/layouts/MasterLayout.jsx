@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Header from '../components/shared/Header'
 import { Footer } from '../components/shared/Footer'
 
@@ -8,10 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import ROUTES from '../routes';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 
+import { AuthContext } from '../Provider/AuthProvider';
+
 
 const MasterLayout = () => {
   const location = useLocation();
-
+  const navigate = useNavigate()
+  const {user} = useContext(AuthContext)
   const getTitle = (pathname) => {
     switch (pathname) {
       case ROUTES.HOME:
@@ -27,9 +30,9 @@ const MasterLayout = () => {
     }
   };
 
-  useEffect(() => {
-   
-  }, [location]);
+  useEffect(() => {        
+    //if(user) navigate(ROUTES.HOME)
+  }, [user]);
   return (
     <>
       <HelmetProvider>

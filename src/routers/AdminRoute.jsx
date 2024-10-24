@@ -10,7 +10,8 @@ const AdminRoute = ({ children }) => {
     if(loading){
         return <Loader/>
     }
-    if (user) {
+    console.log(user);
+    if (user && user.isAdmin) {
         return children;
     }  
     return <Navigate to={`${ROUTES.LOGIN}`} replace />;

@@ -1,9 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../Provider/AuthProvider';
+
 
 export const HeaderComponent = () => {
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);    
+
+    const { user, logOutUser } = useContext(AuthContext)
+
+    const handleLogout = () => {
+        logOutUser().then(() => {
+            navigate(ROUTES.LOGIN, { replace: true });        
+        }).catch(error => {
+            console.error("Logout failed:", error);
+        });
+    };
 
     // Toggle dark mode
     const toggleDarkMode = () => {
@@ -135,7 +147,7 @@ export const HeaderComponent = () => {
                                     Settings
                                 </a>
                                 <a
-                                    href="/logout"
+                                    onClick={handleLogout}
                                     className="block px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600"
                                 >
                                     Logout

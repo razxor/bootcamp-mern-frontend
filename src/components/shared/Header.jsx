@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { Link, useLocation, useNavigate  } from "react-router-dom";
 import ROUTES from "../../routes";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { IoMdLogIn } from "react-icons/io";
 
 const Header = () => {
     const { pathname } = useLocation();
@@ -16,6 +18,7 @@ const Header = () => {
             console.error("Logout failed:", error);
         });
     };
+  
     return (
         <div className="navbar px-0 lg:px-16 shadow-md sticky top-0 z-50 bg-[#161a1d] text-white">
             <div className="navbar-start">
@@ -53,10 +56,10 @@ const Header = () => {
 
             <div className="navbar-center hidden lg:flex justify-end items-end text-right w-9/12">
                 <ul className="flex gap-5 px-1">
-                    <li className={`py-3 px-4 text-lg font-semibold hover:text-orange-500 cursor-pointer ${pathname == ROUTES.HOME && 'text-orange-500'}`}>
+                    <li className={`py-3 px-4 text-lg hover:text-orange-500 cursor-pointer ${pathname == ROUTES.HOME && 'text-orange-500'}`}>
                         <Link to={ROUTES.HOME}>Home</Link>
                     </li>
-                    <li className={`py-3 px-4 text-lg font-semibold hover:text-orange-500 cursor-pointer ${pathname == ROUTES.COURSES && 'text-orange-500'}`}>
+                    <li className={`py-3 px-4 text-lg hover:text-orange-500 cursor-pointer ${pathname == ROUTES.COURSES && 'text-orange-500'}`}>
                         <Link to={ROUTES.COURSES}>Courses</Link>
                     </li>
                     {/* <li className={`py-3 px-4 text-lg font-semibold hover:text-orange-500 cursor-pointer ${pathname==ROUTES.ABOUT && 'text-orange-500'}`}>
@@ -71,12 +74,12 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end sm:1/2 lg:w-3/12 pr-2 lg:pr-0">
-                <div className="flex gap-3 justify-center">
-                    {/* <div className="tooltip tooltip-bottom" data-tip="Buy Book">
-                        <Link className="py-2 px-4 bg-orange-500 rounded text-white text-lg font-semibold hover:bg-yellow-500">
-                            <i className="fa-solid fa-cart-shopping"></i>
+                <div className="flex gap-3 justify-center items-center font-bold">
+                    <div className="tooltip tooltip-bottom" data-tip="Buy Book">
+                        <Link>
+                            <AiOutlineShoppingCart  className="w-6 h-6 font-bold" />
                         </Link>
-                    </div> */}
+                    </div>                    
                     {
                         user
                             ?
@@ -85,13 +88,13 @@ const Header = () => {
                                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                         <div className="w-10 rounded-full">
                                             <img
-                                                alt={user?.displayName}
-                                                src={user?.photoURL} />
+                                                alt={user?.fullname}
+                                                src={user?.photo} />
                                         </div>
                                     </div>
                                     <ul
                                         tabIndex={0}
-                                        className="menu menu-sm dropdown-content bg-base-100 rounded mt-3 w-52 p-2 shadow">
+                                        className="menu menu-sm dropdown-content mt-3 w-52 p-2 shadow-lg bg-[#161a1d]">
                                         {/* <li>
                                             <a className="justify-between">
                                                 Profile
@@ -101,7 +104,7 @@ const Header = () => {
                                         <li><a>Settings</a></li> */}
                                         <li>
                                             <button className="justify-between">
-                                                {user?.displayName}
+                                                {user?.fullname}
                                             </button>
                                         </li>
                                         <li><button onClick={handleLogout}>Logout</button></li>
@@ -110,10 +113,10 @@ const Header = () => {
                             )
                             :
                             (
-                                <div className="tooltip tooltip-bottom" data-tip="Login">
-                                    <Link className="py-2 px-4 bg-orange-500 rounded text-white text-lg font-semibold hover:bg-lime-500" to={ROUTES.LOGIN}>
-                                        <i className="fa-solid fa-right-to-bracket"></i> Login
-                                    </Link>
+                                <div className="tooltip tooltip-bottom" data-tip="Login">                                    
+                                    <Link to={`${ROUTES.LOGIN}`}>
+                                        <IoMdLogIn className="w-6 h-6 font-bold"/>
+                                    </Link>                                                                       
                                 </div>
                             )
                     }

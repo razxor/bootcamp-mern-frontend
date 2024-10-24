@@ -133,13 +133,73 @@ export default function List() {
             {isFormVisible && (
                 <form onSubmit={handleSubmit(onSubmit)} className="mb-6">
                     <div className="mb-2">
-                        <label className="block mb-1">Product Name</label>
+                        <label className="block mb-1">Book Name</label>
                         <input
-                            {...register('name', { required: 'Product name is required' })}
-                            className={`p-2 border rounded w-full ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+                            {...register('bookName', { required: 'Book name is required' })}
+                            className={`p-2 border rounded w-full ${errors.bookName ? 'border-red-500' : 'border-gray-300'}`}
                             placeholder="Product Name"
                         />
-                        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+                        {errors.bookName && <p className="text-red-500">{errors.bookName.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Image URL</label>
+                        <input
+                            {...register('image', { required: 'Image URL is required' })}
+                            className={`p-2 border rounded w-full ${errors.image ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Product Name"
+                        />
+                        {errors.image && <p className="text-red-500">{errors.image.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Total Pages</label>
+                        <input
+                            {...register('totalPages', { required: 'Total pages field is required' })}
+                            className={`p-2 border rounded w-full ${errors.totalPages ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Product Name"
+                        />
+                        {errors.totalPages && <p className="text-red-500">{errors.totalPages.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Rating</label>
+                        <input
+                            {...register('rating', { required: 'Rating is required' })}
+                            className={`p-2 border rounded w-full ${errors.rating ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Product Name"
+                        />
+                        {errors.rating && <p className="text-red-500">{errors.rating.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Publisher</label>
+                        <input
+                            {...register('publisher', { required: 'Publisher is required' })}
+                            className={`p-2 border rounded w-full ${errors.publisher ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Product Name"
+                        />
+                        {errors.publisher && <p className="text-red-500">{errors.publisher.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Author</label>
+                        <input
+                            {...register('author', { required: 'Author name is required' })}
+                            className={`p-2 border rounded w-full ${errors.author ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Product Name"
+                        />
+                        {errors.author && <p className="text-red-500">{errors.author.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Year of Publication</label>
+                        <input
+                            {...register('yearOfPublishing', { required: 'Year of Publication is required' })}
+                            className={`p-2 border rounded w-full ${errors.yearOfPublishing ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Product Name"
+                        />
+                        {errors.yearOfPublishing && <p className="text-red-500">{errors.yearOfPublishing.message}</p>}
                     </div>
 
                     <div className="mb-2">
@@ -190,20 +250,26 @@ export default function List() {
                 <table className="min-w-full bg-white rounded-lg shadow-md">
                     <thead>
                         <tr className="bg-gray-200">
-                            {/* <th className="text-left p-2">ID</th> */}
+                            <th className="text-left p-2">Image</th>
                             <th className="text-left p-2">Name</th>
                             <th className="text-left p-2">Price</th>
                             <th className="text-left p-2">Category</th>
+                            <th className="text-left p-2">Publisher</th>
+                            <th className="text-left p-2">Total Pages</th>
                             <th className="p-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {products && products.map((product) => (
                             <tr key={product.id} className="border-b">
-                                {/* <td className="p-2">{product.id}</td> */}
-                                <td className="p-2">{product.name}</td>
+                                <td className="p-2">
+                                    <img src={product.image} alt="" className='size-12 rounded'/>
+                                </td>
+                                <td className="p-2">{product.bookName}</td>
                                 <td className="p-2">${product.price}</td>
                                 <td className="p-2">{product.category}</td>
+                                <td className="p-2">{product.publisher}</td>
+                                <td className="p-2">{product.totalPages}</td>
                                 <td className="p-2 text-center">
                                     <button
                                         onClick={() => handleEditProduct(product)}

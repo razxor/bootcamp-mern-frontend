@@ -6,7 +6,7 @@ import {
     getAuth,
     onAuthStateChanged,
     GoogleAuthProvider,
-    GithubAuthProvider,
+    GithubAuthProvider,   
     signInWithPopup,
     signOut,
 } from "firebase/auth";
@@ -18,14 +18,33 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
+    
     const [user, setUser] = useState(null);
-    const [registrationInProgress, setRegistrationInProgress] = useState(false); // New flag
     const auth = getAuth(app);
     const [loading, setLoading] = useState(true);
 
-    const createUser = (email, password) => {
+    const createUser =  (payload) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password);
+        
+        console.log(payload);
+        const {fullname, email, password, photo} = payload 
+        const result =  createUserWithEmailAndPassword(auth, email, password);
+        //insert into DB    
+        const response = fetch(`${import.meta.env.VITE_BASE_URL}/api/signup`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({...payload, uid : result.user.uid, isAdmin:false})
+        })
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch");
+        }
+        const data = response.json()
+        console.log(data);                        
+           
+        return result   
     };
 
 
@@ -35,7 +54,7 @@ const AuthProvider = ({ children }) => {
     };
 
     const dBSignIn = (currentUser) => {
-        return setUser(currentUser);
+        return setUser(currentUser);        
     };
 
     const githubSignIn = () => {
@@ -57,42 +76,42 @@ const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser && !registrationInProgress) {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {              
+            console.log(currentUser);
+            if (currentUser) {               
                 try {
                     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/user/${currentUser.uid}`);
-
+                    
                     if (!response.ok) {
                         throw new Error("Failed to fetch");
                     }
+                    console.log(response);     
                     const data = await response.json();
-                    if (data) {
+                    if(data){
                         setUser(data)
-                        setLoading(false);
+                        setLoading(false); 
                     }
+                    setUser(data);   
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                     setUser(null);
-                    setLoading(false);
+                    unsubscribe();
                 } finally {
-                    setLoading(false);
-                    setRegistrationInProgress(false);
+                    setLoading(false);  // Set loading state to false whether it succeeds or fails
                 }
             } else {
                 setUser(null);
-                setLoading(false);
+                setLoading(false);  // Set loading state to false if no currentUser
             }
-
+            
         });
         return () => {
             unsubscribe();
         };
-    }, [registrationInProgress]);
+    }, []);
 
     const authInfo = {
         user,
-        setUser,
-        setRegistrationInProgress,
         loading,
         createUser,
         signIn,

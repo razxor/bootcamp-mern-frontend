@@ -3,53 +3,44 @@ import Rating from 'react-rating';
 import { Link } from 'react-router-dom';
 import ROUTES from '../../routes';
 
-const SingleCourse = (props) => {    
-    const {course} = props;          
+const SingleCourse = (props) => {
+    const { book } = props;
     return (
-        <Link to={ROUTES.SINGLE_COURSE.DYNAMIC(course.course_id)}>        
-            <div className="card bg-base-100 shadow-xl w-full rounded h-96">
+        <Link to={ROUTES.SINGLE_COURSE.DYNAMIC(book._id)}>
+            <div className="card bg-base-100 shadow-xl w-full rounded h-80">
                 <figure>
                     <img
-                        src={`${course.img_url}`}
+                        src={`${book.image}`}
                         alt="Shoes" />
                 </figure>
                 <div className="card-body p-3">
                     <div className="grid grid-cols-5 sm:grid-cols-5 lg:grid-cols-3 justify-center">
                         <div className="col-span-3 sm:col-span-3 lg:col-span-2">
-                            <h3 className="card-title text-sm py-2">
-                                {course.title}
-                            </h3>
-                            <p className='flex gap-2 items-center'>
-                                <img src={course.author_img_url} className='h-10 w-10 rounded-full'/> 
-                                {course.author}
+                            <h2 className="text-xl font-bold">
+                                {book.bookName}
+                            </h2>
+                            <p>
+                                <i className="fa-solid fa-user-tie"></i> {book.author}
                             </p>
                         </div>
                         <div className="col-span-2 sm:col-span-2 lg:col-span-1 text-end flex flex-col justify-center items-end">
+                            <h2 className='tetx-2xl font-bold'>${book.price}</h2>
                             <Rating
                                 emptySymbol="far fa-star text-orange-500"
                                 fullSymbol="fas fa-star text-orange-500"
                                 fractions={2}
-                                initialRating={course.ratings.split('/').shift()}
+                                initialRating={book.rating}
                                 readonly
                             //onChange={(rate) => console.log(rate)}
                             />
-                            <div className="badge badge-accent badge-outline py-2 my-2">{course.level}</div>
+                            <div className="badge badge-accent badge-outline py-2 my-2">{book.category}</div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-3 justify-between items-center gap-5">
-                        <div className="col-span-3 lg:col-span-3 flex gap-2">
-                        <div className="badge badge-success  badge-outline font-bold">${course.price}</div>
-                        <div className="badge badge-secondary  badge-outline">{course.assessments}</div>
-                        <div className="badge badge-primary  badge-outline">{course.lession}</div>                        
-                        <div className="badge badge-warning  badge-outline">{course.duration}</div>                        
-                        <div className="badge badge-error  badge-outline">{course.student}</div>                        
-                        </div>
-                        <div className="col-span-3 lg:col-span-3">
-                            <Link className="btn btn-outline rounded-full btn-success w-full" to={ROUTES.SINGLE_COURSE.DYNAMIC(course.course_id)}>
-                                <i className="fa-regular fa-eye"></i> View Details
-                            </Link>
-                        </div>
+                    <div className="grid grid-cols-1 justify-between items-center">
+                        <Link className="btn btn-outline rounded-full btn-success w-full" to={ROUTES.SINGLE_COURSE.DYNAMIC(book._id)}>
+                            <i className="fa-regular fa-eye"></i> Book Details
+                        </Link>
                     </div>
                 </div>
             </div>
