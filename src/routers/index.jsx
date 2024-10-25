@@ -16,11 +16,12 @@ import Register from '../pages/Auth/Register';
 import { AdminDashboard } from '../pages/Admin/AdminDashboard';
 import AdminLayout from '../layouts/AdminLayout';
 import { AdminUser } from '../pages/Admin/AdminUser';
-import Add from '../components/Admin/User/Add';
+
 
 import AdminCategory from '../pages/Admin/AdminCategory';
 import AdminProduct from '../pages/Admin/AdminProduct';
-import { UserDashboard } from '../pages/User/UserDashboard';
+import  UserDashboard  from '../pages/User/UserDashboard';
+import CategoryWiseProducts from '../pages/CategoryWiseProducts';
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: `${ROUTES.HOME}`,
                 element: <Home />,
+            },
+            {
+                path: `${ROUTES.CATEGORYWISE_PRODUCTS.STATIC}`,
+                element: <CategoryWiseProducts />,
             },
             {
                 path: `${ROUTES.COURSES}`,

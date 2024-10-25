@@ -11,6 +11,7 @@ const Header = () => {
     const navigate = useNavigate();
     const { user, logOutUser } = useContext(AuthContext)
 
+    
     const handleLogout = () => {
         logOutUser().then(() => {
             navigate(ROUTES.LOGIN, { replace: true });        
@@ -40,9 +41,11 @@ const Header = () => {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li className={`${pathname == ROUTES.HOME && 'text-orange-500'}`}><Link to={ROUTES.HOME}>Home</Link></li>
-                        <li className={`${pathname == ROUTES.COURSES && 'text-orange-500'}`}>                            
-                            <Link to={ROUTES.COURSES}>Courses</Link>
+                        <li className={`text-black ${pathname == ROUTES.HOME && 'text-orange-500'}`}>
+                            <Link to={ROUTES.HOME}>Home</Link>
+                        </li>
+                        <li className={`text-black ${pathname == ROUTES.COURSES && 'text-orange-500'}`}>                            
+                            <Link to={ROUTES.COURSES}>All Products</Link>
                         </li>
                         {/* <li className={`${pathname == ROUTES.BLOG && 'text-orange-500'}`}><Link to={ROUTES.BLOG}>Blog</Link></li>
                         <li className={`${pathname == ROUTES.FAQ && 'text-orange-500'}`}><Link to={ROUTES.FAQ}>FAQ</Link></li> */}
@@ -60,7 +63,7 @@ const Header = () => {
                         <Link to={ROUTES.HOME}>Home</Link>
                     </li>
                     <li className={`py-3 px-4 text-lg hover:text-orange-500 cursor-pointer ${pathname == ROUTES.COURSES && 'text-orange-500'}`}>
-                        <Link to={ROUTES.COURSES}>Courses</Link>
+                        <Link to={ROUTES.COURSES}>All Products</Link>
                     </li>
                     {/* <li className={`py-3 px-4 text-lg font-semibold hover:text-orange-500 cursor-pointer ${pathname==ROUTES.ABOUT && 'text-orange-500'}`}>
                         <Link to={ROUTES.ABOUT}>About</Link>
@@ -95,25 +98,26 @@ const Header = () => {
                                     <ul
                                         tabIndex={0}
                                         className="menu menu-sm dropdown-content mt-3 w-52 p-2 shadow-lg bg-[#161a1d]">
-                                        {/* <li>
-                                            <a className="justify-between">
-                                                Profile
-                                                <span className="badge">New</span>
-                                            </a>
-                                        </li>
-                                        <li><a>Settings</a></li> */}
                                         <li>
                                             <button className="justify-between">
                                                 {user?.fullname}
                                             </button>
                                         </li>
+                                        <li>
+                                            <Link className="justify-between" to={ROUTES.USER_DASHBOARD}>
+                                                Dashboard
+                                                {/* <span className="badge">New</span> */}
+                                            </Link>
+                                        </li>
+                                        {/* <li><a>Profile</a></li> */}
+                                        
                                         <li><button onClick={handleLogout}>Logout</button></li>
                                     </ul>
                                 </div>
                             )
                             :
                             (
-                                <div className="tooltip tooltip-bottom" data-tip="Login">                                    
+                                <div className="tooltip tooltip-bottom" data-tip="Login/Register">                                    
                                     <Link to={`${ROUTES.LOGIN}`}>
                                         <IoMdLogIn className="w-6 h-6 font-bold"/>
                                     </Link>                                                                       

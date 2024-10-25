@@ -101,6 +101,16 @@ export default function List() {
             {isFormVisible && (
                 <form onSubmit={handleSubmit(onSubmit)} className="mb-6">
                     <div className="mb-2">
+                        <label className="block mb-1">Category Image URL</label>
+                        <input
+                            {...register('image', { required: 'Image URL is required' })}
+                            className={`p-2 border rounded w-full ${errors.image ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Category Image URL"
+                        />
+                        {errors.image && <p className="text-red-500">{errors.image.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
                         <label className="block mb-1">Category Name</label>
                         <input
                             {...register('name', { required: 'Category name is required' })}
@@ -142,6 +152,7 @@ export default function List() {
                 <table className="min-w-full bg-white rounded-lg shadow-md">
                     <thead>
                         <tr className="bg-gray-200">                            
+                            <th className="text-left p-2">Image</th>
                             <th className="text-left p-2">Name</th>
                             <th className="text-left p-2">Description</th>                            
                         </tr>
@@ -149,6 +160,9 @@ export default function List() {
                     <tbody>
                         {categories && categories.map((category, i) => (
                             <tr key={i} className="border-b">                                
+                                <td className="p-2">
+                                    <img src={category.image} className='rounded' width={100} alt="" />
+                                </td>
                                 <td className="p-2">{category.name}</td>
                                 <td className="p-2">{category.description}</td>                                
                             </tr>

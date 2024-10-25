@@ -9,7 +9,7 @@ const fetcher = (url) => fetch(import.meta.env.VITE_BASE_URL + url).then((res) =
 const ProductImages = () => {
     // const items = Array.from({ length: 6 }, (_, i) => i + 1);
 
-    const { data, error, isLoading } = useSWR('/api/products', fetcher);
+    const { data, error, isLoading } = useSWR('/api/categories', fetcher);
     if (isLoading) return <Loader />;
     if (error) return <p>Error loading course: {error.message}</p>;
 
@@ -20,23 +20,30 @@ const ProductImages = () => {
                 <h2 className="text-4xl font-bold text-gray-800 mb-8">Featured Products</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                     {
-                        data.map((item, i) => (
-                            <div key={i} className="card h-56 bg-base-100 shadow-xl image-full col-span-1 md:col-span-1">
-                                <figure>
-                                    <Link to={ROUTES.SINGLE_COURSE.DYNAMIC(item._id)}>
-                                        <img
-                                            // src={`../../images/courses/${i + 1}.jpg`}
-                                            src={item.image}
-                                            className='w-full'
-                                            alt="Course" />
+                        data.map((item, i) => (                            
+                                item.image && (
+                                    <div key={i} className="card h-56 bg-base-100 shadow-xl image-full col-span-1 md:col-span-1">
+                                    <figure>
+                                        <Link to={ROUTES.SINGLE_COURSE.DYNAMIC(item._id)}>
+                                            <img
+                                                // src={`../../images/courses/${i + 1}.jpg`}
+                                                src={item.image}
+                                                className='w-full'
+                                                alt="Course" />
+                                        </Link>
+                                    </figure>
+                                    <div className="card-body relative">
+                                    <Link to={ROUTES.CATEGORYWISE_PRODUCTS.DYNAMIC(item.name)}>
+                                        <h2 className="card-title text-left absolute top-3 left-3">{item.name}</h2>                                        
                                     </Link>
-                                </figure>
-                                <div className="card-body relative">
-                                <Link to={ROUTES.SINGLE_COURSE.DYNAMIC(item._id)}>
-                                    <h2 className="card-title bottom-5 absolute">{item.bookName}</h2>
-                                </Link>
+
+                                    <Link to={ROUTES.CATEGORYWISE_PRODUCTS.DYNAMIC(item.name)}>                                        
+                                        <button className="bottom-3 absolute btn btn-outline btn-success rounded-full">View Products</button>
+                                    </Link>
+                                    </div>
                                 </div>
-                            </div>
+                                )
+                                                    
                         ))
                     }
                 </div>

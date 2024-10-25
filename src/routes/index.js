@@ -3,6 +3,10 @@ export const ROUTES = {
     REGISTER: "/signup",
     HOME: "/",
     COURSES: "/products",
+    CATEGORYWISE_PRODUCTS: {        
+        STATIC: "/category/:cat",
+        DYNAMIC: (cat)=>`/category/${cat}`,
+    },
     ABOUT: "/about",
     BLOG: "/blog",
     FAQ: "/faq",

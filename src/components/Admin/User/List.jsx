@@ -197,7 +197,7 @@ export default function List() {
                                     <tr key={i}>
                                         <td className="p-3">{user.fullname}</td>
                                         <td className="p-3">{user.email}</td>
-                                        <td className="p-3 capitalize ">{user.role}</td>
+                                        <td className="p-3 capitalize ">{user.isAdmin ? 'Admin' : 'User'}</td>
                                         <td className="p-3">
                                             <button
                                                 onClick={() => handleEditUser(user)}
@@ -206,7 +206,7 @@ export default function List() {
                                                 Edit
                                             </button>
                                             {
-                                                user.role != 'admin' && (
+                                                !user.isAdmin && (
                                                     <button
                                                         onClick={() => handleDeleteUser(user._id)}
                                                         className="bg-red-500 text-white py-1 px-3 rounded"
