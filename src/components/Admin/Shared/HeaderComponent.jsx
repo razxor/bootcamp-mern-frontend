@@ -1,39 +1,51 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Provider/AuthProvider';
+import ROUTES from '../../../routes';
 
-
-export const HeaderComponent = () => {
+export const HeaderComponent = ({ onSidebarToggle }) => {
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
     const [darkMode, setDarkMode] = useState(false);    
-
-    const { user, logOutUser } = useContext(AuthContext)
+    const { user, logOutUser } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        logOutUser().then(() => {
-            navigate(ROUTES.LOGIN, { replace: true });        
-        }).catch(error => {
-            console.error("Logout failed:", error);
-        });
+        logOutUser()
+            .then(() => navigate(ROUTES.LOGIN, { replace: true }))
+            .catch(error => console.error("Logout failed:", error));
     };
 
     // Toggle dark mode
     const toggleDarkMode = () => {
         setDarkMode(!darkMode);
+        document.body.classList.toggle('dark', !darkMode);
     };
 
-    // Apply dark mode class to the body
-    useEffect(() => {
-        if (darkMode) {
-            document.body.classList.add('dark');
-        } else {
-            document.body.classList.remove('dark');
-        }
-    }, [darkMode]);
-
     return (
-        <header className="bg-white dark:bg-gray-800 shadow-md dark:shadow-gray-700">
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <header className="bg-white dark:bg-gray-800 shadow-md dark:shadow-gray-700 ">
+            <div className="container  mx-auto px-4 py-4 flex justify-between items-center">
+                {/* Sidebar Toggle for Mobile */}
+                <button
+                    onClick={onSidebarToggle}
+                    className="md:hidden text-gray-600 dark:text-gray-300 focus:outline-none"
+                    title="Toggle Sidebar"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 6h16M4 12h16m-7 6h7"
+                        />
+                    </svg>
+                </button>
+
                 {/* Logo */}
                 <div className="text-xl font-bold text-blue-600 dark:text-white">
                     Admin Panel
@@ -113,10 +125,10 @@ export const HeaderComponent = () => {
                         >
                             <img
                                 className="w-10 h-10 rounded-full"
-                                src="https://via.placeholder.com/150"
+                                src={user?.photo || "/default-avatar.png"}
                                 alt="User profile"
                             />
-                            <span className="ml-2 text-gray-700 dark:text-white">Admin</span>
+                            <span className="ml-2 text-gray-700 dark:text-white">{user?.fullname}</span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5 ml-1 text-gray-500 dark:text-gray-300"
@@ -134,24 +146,19 @@ export const HeaderComponent = () => {
                         {/* Dropdown Menu */}
                         {profileDropdownOpen && (
                             <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 border rounded-lg shadow-lg z-50">
-                                <a
-                                    href="/profile"
+                                <Link
+                                    to={ROUTES.ADMIN_PROFILE}
                                     className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"
                                 >
                                     Profile
-                                </a>
-                                <a
-                                    href="/settings"
-                                    className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"
-                                >
-                                    Settings
-                                </a>
-                                <a
+                                </Link>
+                                
+                                <button
                                     onClick={handleLogout}
-                                    className="block px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                    className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-600"
                                 >
                                     Logout
-                                </a>
+                                </button>
                             </div>
                         )}
                     </div>

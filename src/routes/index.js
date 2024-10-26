@@ -15,12 +15,14 @@ export const ROUTES = {
         DYNAMIC: (id)=>`/product/${id}`,
     },
 
+    USER_PROFILE: "/user/profile",
     USER: "/user",
     USER_DASHBOARD: "/user/dashboard",        
     PURCHASED_PRODUCTS: "/user/orders",    
 
 
     ADMIN: "/admin",
+    ADMIN_PROFILE: "/admin/profile",
     ADMIN_DASHBOARD: "/admin/dashboard",
     ADMIN_USERS: "/admin/users",    
     ADMIN_PRODUCTS: "/admin/products",

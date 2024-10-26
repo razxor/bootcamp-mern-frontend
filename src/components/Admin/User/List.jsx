@@ -31,23 +31,21 @@ export default function List() {
     // Add or update user
     const onSubmit = (data) => {
         if (editingUser) {
-            console.log(editingUser);
-            console.log(data);
             // Edit existing user
             fetch(`${import.meta.env.VITE_BASE_URL}/api/user`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({ ...data, isAdmin: data.role == 'Admin' ? true : false })
             }).then(response => response.json())
-                .then(data => {                    
+                .then(res => {
                     setIsFormVisible(false);
                     setEditingUser(null);
                 });
-                setUsers(
-                    users && users.map((user) => (user._id == editingUser._id ? { ...data } : user))
-                );
+            setUsers(
+                users && users.map((user) => (user._id == editingUser._id ? { ...data, isAdmin: data.role == 'Admin' ? true : false } : user))
+            );
         } else {
             // Add new user
             try {
@@ -56,7 +54,7 @@ export default function List() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({ ...data, isAdmin: data.role == 'Admin' ? true : false })
                 });
 
                 console.log(response);
@@ -115,11 +113,6 @@ export default function List() {
         <div className="p-6 bg-gray-100">
             <div className='flex justify-between items-center py-2'>
                 <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
-                {!isFormVisible && (
-                    // <Link to={ROUTES.ADMIN_USERS_ADD}>
-                    <button className="bg-blue-500 text-white px-3 py-1 rounded btn" onClick={handleAddUser}>Add User</button>
-                    // </Link>
-                )}
             </div>
 
             {/* Add/Edit User Form */}
@@ -148,9 +141,20 @@ export default function List() {
                     </div>
 
                     <div className="mb-2">
+                        <label className="block mb-1">Photo URL</label>
+                        <input
+                            {...register('photo')}
+                            className={`p-2 border rounded w-full`}
+                            placeholder="Photo URL"
+                        />
+                        {errors.photo && <p className="text-red-500">{errors.photo.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
                         <label className="block mb-1">Role</label>
                         <select
                             {...register('role', { required: 'Role is required' })}
+                            defaultValue={editingUser.isAdmin ? "Admin" : "User"}
                             className={`p-2 border rounded w-full ${errors.role ? 'border-red-500' : 'border-gray-300'}`}
                         >
                             <option value="">Select Role</option>
@@ -180,48 +184,50 @@ export default function List() {
 
             {/* Users Table */}
             {!isFormVisible && (
-                <table className="w-full bg-white rounded shadow">
-                    <thead>
-                        <tr className="bg-gray-200 text-left">
-                            <th className="p-3">Name</th>
-                            <th className="p-3">Email</th>
-                            <th className="p-3">Role</th>
-                            <th className="p-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Sample data */}
-                        {
-                            users && users.map((user, i) => {
-                                return (
-                                    <tr key={i}>
-                                        <td className="p-3">{user.fullname}</td>
-                                        <td className="p-3">{user.email}</td>
-                                        <td className="p-3 capitalize ">{user.isAdmin ? 'Admin' : 'User'}</td>
-                                        <td className="p-3">
-                                            <button
-                                                onClick={() => handleEditUser(user)}
-                                                className="bg-yellow-500 text-white py-1 px-3 mr-2 rounded"
-                                            >
-                                                Edit
-                                            </button>
-                                            {
-                                                !user.isAdmin && (
-                                                    <button
-                                                        onClick={() => handleDeleteUser(user._id)}
-                                                        className="bg-red-500 text-white py-1 px-3 rounded"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                )
-                                            }
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
+                <div className='overflow-x-auto'>
+                    <table className="w-full bg-white rounded shadow">
+                        <thead>
+                            <tr className="bg-gray-200 text-left">
+                                <th className="p-3">Name</th>
+                                <th className="p-3">Email</th>
+                                <th className="p-3">Role</th>
+                                <th className="p-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {/* Sample data */}
+                            {
+                                users && users.map((user, i) => {
+                                    return (
+                                        <tr key={i}>
+                                            <td className="p-3">{user.fullname}</td>
+                                            <td className="p-3">{user.email}</td>
+                                            <td className="p-3 capitalize ">{user.isAdmin ? 'Admin' : 'User'}</td>
+                                            <td className="p-3">
+                                                <button
+                                                    onClick={() => handleEditUser(user)}
+                                                    className="bg-yellow-500 text-white py-1 px-3 mr-2 rounded"
+                                                >
+                                                    Edit
+                                                </button>
+                                                {
+                                                    !user.isAdmin && (
+                                                        <button
+                                                            onClick={() => handleDeleteUser(user._id)}
+                                                            className="bg-red-500 text-white py-1 px-3 rounded"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    )
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     )

@@ -126,7 +126,7 @@ export default function List() {
                             {...register('description')}
                             className={`p-2 border rounded w-full`}
                             placeholder="Category Description"
-                        />                        
+                        />
                     </div>
 
                     <button
@@ -149,26 +149,28 @@ export default function List() {
 
             {/* Categories Table */}
             {!isFormVisible && (
-                <table className="min-w-full bg-white rounded-lg shadow-md">
-                    <thead>
-                        <tr className="bg-gray-200">                            
-                            <th className="text-left p-2">Image</th>
-                            <th className="text-left p-2">Name</th>
-                            <th className="text-left p-2">Description</th>                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {categories && categories.map((category, i) => (
-                            <tr key={i} className="border-b">                                
-                                <td className="p-2">
-                                    <img src={category.image} className='rounded' width={100} alt="" />
-                                </td>
-                                <td className="p-2">{category.name}</td>
-                                <td className="p-2">{category.description}</td>                                
+                <div className='overflow-x-auto'>
+                    <table className="min-w-full bg-white rounded-lg shadow-md">
+                        <thead>
+                            <tr className="bg-gray-200">
+                                <th className="text-left p-2">Image</th>
+                                <th className="text-left p-2">Name</th>
+                                <th className="text-left p-2">Description</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {categories && categories.map((category, i) => (
+                                <tr key={i} className="border-b">
+                                    <td className="p-2">
+                                        <img src={category.image} className='rounded' width={100} alt="" />
+                                    </td>
+                                    <td className="p-2">{category.name}</td>
+                                    <td className="p-2">{category.description}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );

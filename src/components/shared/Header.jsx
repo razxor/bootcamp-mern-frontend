@@ -79,9 +79,9 @@ const Header = () => {
             <div className="navbar-end sm:1/2 lg:w-3/12 pr-2 lg:pr-0">
                 <div className="flex gap-3 justify-center items-center font-bold">
                     <div className="tooltip tooltip-bottom" data-tip="Buy Book">
-                        <Link>
+                        {/* <Link> */}
                             <AiOutlineShoppingCart  className="w-6 h-6 font-bold" />
-                        </Link>
+                        {/* </Link> */}
                     </div>                    
                     {
                         user
@@ -99,9 +99,9 @@ const Header = () => {
                                         tabIndex={0}
                                         className="menu menu-sm dropdown-content mt-3 w-52 p-2 shadow-lg bg-[#161a1d]">
                                         <li>
-                                            <button className="justify-between">
-                                                {user?.fullname}
-                                            </button>
+                                            <Link to={ROUTES.USER_PROFILE} className="justify-between">
+                                                {user?.fullname} - Profile
+                                            </Link>
                                         </li>
                                         <li>
                                             <Link className="justify-between" to={ROUTES.USER_DASHBOARD}>

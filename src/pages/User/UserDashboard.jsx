@@ -30,8 +30,8 @@ export default function UserDashboard() {
 
   return (
     <>
-      <div className='grid grid-cols-4 gap-10'>
-        <StatsBox title='Total Spent' value={totalSpent} bgColor='bg-blue-400' />
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2 md:gap-10'>
+        <StatsBox title='Total Spent' value={'$'+totalSpent} bgColor='bg-blue-400' />
         <StatsBox title='Total Order' value={products.length} bgColor='bg-green-400' />
       </div>
       <div className='grid py-6'>

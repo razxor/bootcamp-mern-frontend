@@ -2,56 +2,56 @@ import React from 'react'
 
 export const HIW = () => {
     return (
-        <section className="how-it-works py-12 bg-gray-100 ">
+        <section className="how-it-works py-12 bg-white ">
             <div className="max-w-4xl mx-auto px-6">
                 <h2 className="text-4xl font-bold text-center text-gray-800 mb-10">How It Works</h2>
                 <div className="space-y-8">
                     <div className="step">
-                        <h3 className="text-xl font-semibold text-gray-700">1. Browse Our Courses</h3>
+                        <h3 className="text-xl font-semibold text-gray-700">1. Explore Our Collection</h3>
                         <p className="text-gray-600">
-                            Explore our wide range of courses across various fields. Use the search bar or categories to quickly find what interests you.
+                            Discover a wide variety of books across different genres. Use the search bar or browse by categories to find books that match your interests.
                         </p>
                     </div>
                     <div className="step">
-                        <h3 className="text-xl font-semibold text-gray-700">2. Select a Course</h3>
+                        <h3 className="text-xl font-semibold text-gray-700">2. Select a Book</h3>
                         <p className="text-gray-600">
-                            Click on any course to view its details, including the curriculum, instructor profile, and reviews. This helps you find a course that best suits your needs.
+                            Click on any book to view details, including the synopsis, author information, and customer reviews. This helps you make informed choices on your next read.
                         </p>
                     </div>
                     <div className="step">
-                        <h3 className="text-xl font-semibold text-gray-700">3. Register or Log In</h3>
+                        <h3 className="text-xl font-semibold text-gray-700">3. Add to Cart</h3>
                         <p className="text-gray-600">
-                            If you're new to our site, create an account to track your courses, manage your progress, and access additional resources. If you already have an account, log in for a personalized experience.
+                            Once you find a book you like, add it to your cart. You can continue browsing and add more books or proceed to checkout when you’re ready.
                         </p>
                     </div>
                     <div className="step">
-                        <h3 className="text-xl font-semibold text-gray-700">4. Purchase the Course</h3>
+                        <h3 className="text-xl font-semibold text-gray-700">4. Register or Log In</h3>
                         <p className="text-gray-600">
-                            Click on the “Enroll Now” button to start the purchase process. Follow the prompts to complete your purchase securely.
+                            Create an account for a personalized experience, track your orders, and save your favorite books. If you’re already a member, log in to access your account.
                         </p>
                     </div>
                     <div className="step">
-                        <h3 className="text-xl font-semibold text-gray-700">5. Access Course Content</h3>
+                        <h3 className="text-xl font-semibold text-gray-700">5. Complete Your Purchase</h3>
                         <p className="text-gray-600">
-                            After purchase, access your course materials in the “My Courses” section. Start learning at your own pace, and track your progress through each module.
+                            Go to your cart and proceed with a secure checkout. We offer multiple payment options to make it convenient for you.
                         </p>
                     </div>
                     <div className="step">
-                        <h3 className="text-xl font-semibold text-gray-700">6. Participate in Community Discussions</h3>
+                        <h3 className="text-xl font-semibold text-gray-700">6. Receive Your Books</h3>
                         <p className="text-gray-600">
-                            Engage with instructors and fellow learners through our community discussion forums. Ask questions, share insights, and enhance your learning experience.
+                            Your books will be shipped promptly to your address. For e-books, access them instantly in the “My Library” section on your profile.
                         </p>
                     </div>
                     <div className="step">
-                        <h3 className="text-xl font-semibold text-gray-700">7. Earn Your Certificate</h3>
+                        <h3 className="text-xl font-semibold text-gray-700">7. Leave a Review</h3>
                         <p className="text-gray-600">
-                            Complete the course, pass assessments, and receive a certificate of completion. Add it to your resume or share it on social media to showcase your achievements!
+                            After enjoying your book, share your thoughts by leaving a review. Help other readers discover great books based on your insights!
                         </p>
                     </div>
                     <div className="step">
-                        <h3 className="text-xl font-semibold text-gray-700">8. Stay Updated</h3>
+                        <h3 className="text-xl font-semibold text-gray-700">8. Stay Connected</h3>
                         <p className="text-gray-600">
-                            Receive updates on new courses, promotions, and special events by subscribing to our newsletter. We’re always adding fresh content to support your growth.
+                            Subscribe to our newsletter to receive updates on new arrivals, discounts, and reading recommendations tailored to your interests.
                         </p>
                     </div>
                 </div>

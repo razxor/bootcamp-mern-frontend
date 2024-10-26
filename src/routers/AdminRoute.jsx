@@ -10,7 +10,7 @@ const AdminRoute = ({ children }) => {
     if(loading){
         return <Loader/>
     }
-    console.log(user);
+    // console.log(user);
     if (user && user.isAdmin) {
         return children;
     }  

@@ -22,6 +22,8 @@ import AdminCategory from '../pages/Admin/AdminCategory';
 import AdminProduct from '../pages/Admin/AdminProduct';
 import  UserDashboard  from '../pages/User/UserDashboard';
 import CategoryWiseProducts from '../pages/CategoryWiseProducts';
+import UserProfile from '../pages/User/UserProfile';
+import AdminProfile from '../pages/Admin/AdminProfile';
 
 const router = createBrowserRouter([
     {
@@ -72,7 +74,17 @@ const router = createBrowserRouter([
                             <UserDashboard />
                         </PrivateRoute>
                     )
-            },            
+            },     
+            
+            {
+                path: `${ROUTES.USER_PROFILE}`,
+                element:
+                    (
+                        <PrivateRoute>
+                            <UserProfile />
+                        </PrivateRoute>
+                    )
+            },       
             
 
 
@@ -105,6 +117,15 @@ const router = createBrowserRouter([
                     (
                         <AdminRoute>
                             <AdminDashboard />,
+                        </AdminRoute>
+                    )
+            },
+            {
+                path: `${ROUTES.ADMIN_PROFILE}`,
+                element:
+                    (
+                        <AdminRoute>
+                            <AdminProfile />
                         </AdminRoute>
                     )
             },

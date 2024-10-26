@@ -39,7 +39,7 @@ const SingleCourse = (props) => {
 
                     <div className="grid grid-cols-1 justify-between items-center">
                         <Link className="btn btn-outline rounded-full btn-success w-full" to={ROUTES.SINGLE_COURSE.DYNAMIC(book._id)}>
-                            <i className="fa-regular fa-eye"></i> Book Details
+                            <i className="fa-regular fa-eye"></i> View Details
                         </Link>
                     </div>
                 </div>
