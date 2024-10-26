@@ -42,7 +42,7 @@ export const Footer = () => {
                     </div>
                 </div>
                 <div className="w-full sm:w-full md:w-5/6 text-left sm:text-left md:text-center mt-8 text-gray-400 text-sm">
-                    © {new Date().getFullYear()} Your Company Name. All rights reserved.
+                    © {new Date().getFullYear()} Rs Online Bookshop. All rights reserved.
                 </div>
             </div>
         </footer>

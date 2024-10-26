@@ -17,7 +17,7 @@ export const SidebarComponent = ({ isSidebarOpen, onClose }) => {
                     Close
                 </button>
                 <ul>
-                    <li className="mb-4">
+                    <li>
                         <Link
                             to={ROUTES.ADMIN_DASHBOARD}
                             className="hover:bg-gray-700 p-2 block rounded"
@@ -25,7 +25,7 @@ export const SidebarComponent = ({ isSidebarOpen, onClose }) => {
                             Dashboard
                         </Link>
                     </li>
-                    <li className="mb-4">
+                    <li>
                         <Link
                             to={ROUTES.ADMIN_CATEGORIES}
                             className="hover:bg-gray-700 p-2 block rounded"
@@ -33,7 +33,7 @@ export const SidebarComponent = ({ isSidebarOpen, onClose }) => {
                             Manage Category
                         </Link>
                     </li>
-                    <li className="mb-4">
+                    <li>
                         <Link
                             to={ROUTES.ADMIN_PRODUCTS}
                             className="hover:bg-gray-700 p-2 block rounded"
@@ -41,7 +41,7 @@ export const SidebarComponent = ({ isSidebarOpen, onClose }) => {
                             Manage Products
                         </Link>
                     </li>
-                    <li className="mb-4">
+                    <li>
                         <Link
                             to={ROUTES.ADMIN_USERS}
                             className="hover:bg-gray-700 p-2 block rounded"

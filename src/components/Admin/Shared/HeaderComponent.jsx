@@ -23,7 +23,7 @@ export const HeaderComponent = ({ onSidebarToggle }) => {
 
     return (
         <header className="bg-white dark:bg-gray-800 shadow-md dark:shadow-gray-700 ">
-            <div className="container  mx-auto px-4 py-4 flex justify-between items-center">
+            <div className="  mx-auto px-4 py-4 flex justify-between items-center">
                 {/* Sidebar Toggle for Mobile */}
                 <button
                     onClick={onSidebarToggle}
@@ -48,7 +48,10 @@ export const HeaderComponent = ({ onSidebarToggle }) => {
 
                 {/* Logo */}
                 <div className="text-xl font-bold text-blue-600 dark:text-white">
-                    Admin Panel
+                    <Link to={ROUTES.HOME} className='flex items-center gap-1'>
+                        <img src="/images/rs-l.png" alt="" width={45}/>     
+                        Bookshop   
+                    </Link>            
                 </div>
 
                 {/* Search Bar */}

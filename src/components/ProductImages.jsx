@@ -38,7 +38,7 @@ const ProductImages = () => {
                                     </Link>
 
                                     <Link to={ROUTES.CATEGORYWISE_PRODUCTS.DYNAMIC(item.name)}>                                        
-                                        <button className="bottom-3 absolute btn btn-outline btn-success rounded-full">View Products</button>
+                                        <button className="bottom-3 right-3 absolute btn btn-outline btn-success rounded-full">View Products</button>
                                     </Link>
                                     </div>
                                 </div>

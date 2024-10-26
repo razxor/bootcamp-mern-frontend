@@ -84,7 +84,7 @@ const Header = () => {
                         {/* </Link> */}
                     </div>                    
                     {
-                        user
+                        user && !user.isAdmin
                             ?
                             (
                                 <div className="dropdown dropdown-end">

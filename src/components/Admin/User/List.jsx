@@ -110,7 +110,7 @@ export default function List() {
     };
 
     return (
-        <div className="p-6 bg-gray-100">
+        <div className="">
             <div className='flex justify-between items-center py-2'>
                 <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
             </div>
@@ -185,12 +185,12 @@ export default function List() {
             {/* Users Table */}
             {!isFormVisible && (
                 <div className='overflow-x-auto'>
-                    <table className="w-full bg-white rounded shadow">
+                    <table className="min-w-full bg-white rounded shadow table">
                         <thead>
                             <tr className="bg-gray-200 text-left">
                                 <th className="p-3">Name</th>
                                 <th className="p-3">Email</th>
-                                <th className="p-3">Role</th>
+                                {/* <th className="p-3">Role</th> */}
                                 <th className="p-3">Actions</th>
                             </tr>
                         </thead>
@@ -202,8 +202,8 @@ export default function List() {
                                         <tr key={i}>
                                             <td className="p-3">{user.fullname}</td>
                                             <td className="p-3">{user.email}</td>
-                                            <td className="p-3 capitalize ">{user.isAdmin ? 'Admin' : 'User'}</td>
-                                            <td className="p-3">
+                                            {/* <td className="p-3 capitalize ">{user.isAdmin ? 'Admin' : 'User'}</td> */}
+                                            <td className="p-3 flex justify-between items-center">
                                                 <button
                                                     onClick={() => handleEditUser(user)}
                                                     className="bg-yellow-500 text-white py-1 px-3 mr-2 rounded"

@@ -83,7 +83,7 @@ export default function List() {
     };
 
     return (
-        <div className="p-6">
+        <div className="">
             <div className='flex justify-between items-center py-2'>
                 <h2 className="text-xl font-bold mb-4">Manage Categories</h2>
                 {/* Show Add Category Button if Table is Visible */}
