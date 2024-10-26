@@ -16,8 +16,7 @@ export const Login = () => {
         try {
             const { email, password } = payload
             signIn(email, password)
-                .then( async (result) => {
-                    console.log('user = ', result.user);                    
+                .then( async (result) => {                             
                     const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/login`, {
                         method: 'POST',
                         headers: {
