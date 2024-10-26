@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import SidebarComponent from '../../components/User/SidebarComponent'
 import StatsBox from '../../components/shared/StatsBox'
 import { AuthContext } from "../../Provider/AuthProvider";
 
@@ -25,7 +24,7 @@ export default function UserDashboard() {
       setLoading(false);
     }
   }, [])
-  console.log('products ', products);
+  
 
 
   return (
@@ -49,9 +48,9 @@ export default function UserDashboard() {
             <tbody>
               {/* row 1 */}
               {
-                products && products.map(item => {
+                products && products.map((item,i) => {
                   return (
-                    <tr>
+                    <tr key={i}>
                       <td>
                         <div className="flex items-center gap-3">
                           <div className="avatar">
