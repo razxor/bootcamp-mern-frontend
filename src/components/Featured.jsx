@@ -11,6 +11,7 @@ export default function Featured() {
 
     const { cat } = useParams();    
     const { data, error, isLoading } = useSWR(`/api/featured_products`, fetcher);
+    console.log(data);
     if (isLoading) return <Loader />;
     if (error) return <p>Error loading course: {error.message}</p>;
 
