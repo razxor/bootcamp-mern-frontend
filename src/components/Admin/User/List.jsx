@@ -3,6 +3,7 @@ import ROUTES from '../../../routes'
 import { Link } from 'react-router-dom'
 import Loader from '../../Loader';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export default function List() {
     const [users, setUsers] = useState([]);
@@ -46,6 +47,9 @@ export default function List() {
             setUsers(
                 users && users.map((user) => (user._id == editingUser._id ? { ...data, isAdmin: data.role == 'Admin' ? true : false } : user))
             );
+            toast.success("User has Updated Successfully", {
+                position: "top-right",
+            });
         } else {
             // Add new user
             try {
@@ -151,6 +155,26 @@ export default function List() {
                     </div>
 
                     <div className="mb-2">
+                        <label className="block mb-1">Phone No</label>
+                        <input
+                            {...register('phone', {required: 'Phone No is required'})}
+                            className={`p-2 border rounded w-full`}
+                            placeholder="Phone Number"
+                        />
+                        {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
+                        <label className="block mb-1">Address</label>
+                        <input
+                            {...register('address', {required:'Address is required'})}
+                            className={`p-2 border rounded w-full`}
+                            placeholder="Address"
+                        />
+                        {errors.address && <p className="text-red-500">{errors.address.message}</p>}
+                    </div>
+
+                    <div className="mb-2">
                         <label className="block mb-1">Role</label>
                         <select
                             {...register('role', { required: 'Role is required' })}
@@ -190,7 +214,7 @@ export default function List() {
                             <tr className="bg-gray-200 text-left">
                                 <th className="p-3">Name</th>
                                 <th className="p-3">Email</th>
-                                {/* <th className="p-3">Role</th> */}
+                                <th className="p-3">Role</th>
                                 <th className="p-3">Actions</th>
                             </tr>
                         </thead>
@@ -202,7 +226,7 @@ export default function List() {
                                         <tr key={i}>
                                             <td className="p-3">{user.fullname}</td>
                                             <td className="p-3">{user.email}</td>
-                                            {/* <td className="p-3 capitalize ">{user.isAdmin ? 'Admin' : 'User'}</td> */}
+                                            <td className="p-3 capitalize ">{user.isAdmin ? 'Admin' : 'User'}</td>
                                             <td className="p-3 flex justify-between items-center">
                                                 <button
                                                     onClick={() => handleEditUser(user)}
@@ -211,14 +235,14 @@ export default function List() {
                                                     Edit
                                                 </button>
                                                 {
-                                                    !user.isAdmin && (
-                                                        <button
-                                                            onClick={() => handleDeleteUser(user._id)}
-                                                            className="bg-red-500 text-white py-1 px-3 rounded"
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    )
+                                                    // !user.isAdmin && (
+                                                    //     <button
+                                                    //         onClick={() => handleDeleteUser(user._id)}
+                                                    //         className="bg-red-500 text-white py-1 px-3 rounded"
+                                                    //     >
+                                                    //         Delete
+                                                    //     </button>
+                                                    // )
                                                 }
                                             </td>
                                         </tr>

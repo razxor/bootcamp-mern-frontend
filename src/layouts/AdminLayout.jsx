@@ -15,16 +15,16 @@ const AdminLayout = () => {
 
   const getTitle = (pathname) => {
     switch (pathname) {
-      case ROUTES.HOME:
-        return 'Online Book Shop | Home';
-      case ROUTES.ABOUT:
-        return 'Online Book Shop | About';
-      case ROUTES.BLOG:
-        return 'Online Book Shop | Blog';
-      case ROUTES.FAQ:
-        return 'Online Book Shop | FAQ';
+      case ROUTES.ADMIN_DASHBOARD:
+        return 'Rs | Admin - Dashboard';
+      case ROUTES.ADMIN_CATEGORIES:
+        return 'Rs | Admin - Categories';
+      case ROUTES.ADMIN_PRODUCTS:
+        return 'Rs | Admin - Products';
+      case ROUTES.ADMIN_USERS:
+        return 'Rs | Admin - Users';
       default:
-        return 'Online Book Shop';
+        return 'Rs - Dashboard';
     }
   };
 

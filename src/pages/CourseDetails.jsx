@@ -69,7 +69,7 @@ export const CourseDetails = () => {
   return (
     <>
       <Helmet>
-        <title>Online Book Shop | {book?.bookName || "Course Details"}</title>
+        <title>Rs Bookshop | {book?.bookName || "Book Details"}</title>
       </Helmet>
       <section id='bookDetails' className='w-4/5 mx-auto'>
         <div className='grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-8 py-12 gap-10'>
@@ -186,7 +186,7 @@ export const CourseDetails = () => {
 
             <div className="flex flex-col">
                 <button type="submit" className="w-1/3 mx-auto btn btn-success text-white">
-                    Order Now
+                    Order Confirm
                 </button>
             </div>
         </form>

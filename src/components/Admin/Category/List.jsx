@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export default function List() {
     const [loading, setLoading] = useState(false);
@@ -25,15 +26,31 @@ export default function List() {
     const [isFormVisible, setIsFormVisible] = useState(false); // Controls the visibility of the form
 
     // Add or update category
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         if (editingCategory) {
             // Edit existing category
+            await fetch(`${import.meta.env.VITE_BASE_URL}/api/category`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(res => {
+                    console.log(res)
+                    setIsFormVisible(false);
+                })
+            
             setCategories(
-                categories.map((category) =>
-                    category.id === editingCategory.id ? { ...data, id: editingCategory.id } : category
+                categories && categories.map((category) =>
+                    category._id == editingCategory._id ? { ...data } : category
                 )
             );
             setEditingCategory(null);
+            toast.success("Category has updated Successfully", {
+                position: "top-right",
+            });
         } else {
             // Add new category
             try {
@@ -56,7 +73,7 @@ export default function List() {
             } catch (err) {
                 console.log(err);
             } finally {
-                setCategories([...categories, { ...data, id: categories.length + 1 }]);
+                setCategories([...categories, { ...data }]);
             }
         }
         reset(); // Reset form after submission
@@ -64,7 +81,7 @@ export default function List() {
     };
 
     // Edit category (populate form)
-    const handleEditCategory = (category) => {
+    const handleEditCategory = (category) => {        
         setEditingCategory(category);
         reset(category); // Populate the form with category data
         setIsFormVisible(true); // Show the form
@@ -72,7 +89,24 @@ export default function List() {
 
     // Delete category
     const handleDeleteCategory = (id) => {
-        setCategories(categories.filter((category) => category.id !== id));
+        if (confirm("Are you sure you want to delete?")) {
+            try {
+                fetch(`${import.meta.env.VITE_BASE_URL}/api/category/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        setIsFormVisible(false);
+                    })
+    
+            } catch (err) {
+                console.log(err);
+            } finally {
+                console.log(id);                
+                setCategories(categories && categories.filter((category) => category._id != id));
+            }
+        }           
     };
 
     // Show form to add new category
@@ -120,14 +154,14 @@ export default function List() {
                         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                     </div>
 
-                    <div className="mb-2">
+                    {/* <div className="mb-2">
                         <label className="block mb-1">Description</label>
                         <textarea
                             {...register('description')}
                             className={`p-2 border rounded w-full`}
                             placeholder="Category Description"
                         />
-                    </div>
+                    </div> */}
 
                     <button
                         type="submit"
@@ -155,7 +189,7 @@ export default function List() {
                             <tr className="bg-gray-200">
                                 <th className="text-left p-2">Image</th>
                                 <th className="text-left p-2">Name</th>
-                                <th className="text-left p-2">Description</th>
+                                <th className="text-left p-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -165,7 +199,21 @@ export default function List() {
                                         <img src={category.image} className='rounded' width={100} alt="" />
                                     </td>
                                     <td className="p-2">{category.name}</td>
-                                    <td className="p-2">{category.description}</td>
+                                    {/* <td className="p-2">{category.description}</td> */}
+                                    <td className="p-2 text-center flex gap-2 items-center">
+                                        <button
+                                            onClick={() => handleEditCategory(category)}
+                                            className="bg-yellow-500 text-white py-2 px-3 mr-2 rounded"
+                                        >
+                                            Edit & View
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteCategory(category._id)}
+                                            className="bg-red-500 text-white py-2 px-3 rounded"
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

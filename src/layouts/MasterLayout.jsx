@@ -19,15 +19,14 @@ const MasterLayout = () => {
   const getTitle = (pathname) => {
     switch (pathname) {
       case ROUTES.HOME:
-        return 'Online Book Shop | Home';
-      case ROUTES.ABOUT:
-        return 'Online Book Shop | About';
-      case ROUTES.BLOG:
-        return 'Online Book Shop | Blog';
+        return 'Rs Bookshop | Home';
+      case ROUTES.COURSES:
+        return 'Rs Bookshop | Products';
+      
       case ROUTES.FAQ:
-        return 'Online Book Shop | FAQ';
+        return 'Rs Bookshop | FAQ';
       default:
-        return 'Online Book Shop';
+        return 'Rs Bookshop';
     }
   };
 

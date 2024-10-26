@@ -95,7 +95,7 @@ const Register = () => {
                             </div>
                             {/* <form action="" onSubmit={handleRegister}> */}
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="space-y-5">
+                                <div className="space-y-1">
 
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700 tracking-wide">Name</label>
@@ -110,18 +110,7 @@ const Register = () => {
                                         {errors.fullname?.type === 'required' && <small role="alert" className="text-red-500">Your name is required</small>}
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium text-gray-700 tracking-wide">Photo URL</label>
-                                        <input
-                                            className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
-                                            type="text"
-                                            placeholder="Photo URL"
-                                            autoComplete="on"
-                                            {...register('photo')}
-                                        // aria-invalid={errors.photo ? "true" : "false"}                                      
-                                        />
-
-                                    </div>
+                                    
 
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-700 tracking-wide">Email</label>
@@ -182,7 +171,20 @@ const Register = () => {
                                         {errors.address?.type === 'required' && <small role="alert" className="text-red-500">Address is required</small>}
                                     </div>
 
-                                    <div className="flex items-center align-middle">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium text-gray-700 tracking-wide">Photo URL</label>
+                                        <input
+                                            className=" w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-green-400"
+                                            type="text"
+                                            placeholder="Photo URL"
+                                            autoComplete="on"
+                                            {...register('photo')}
+                                        // aria-invalid={errors.photo ? "true" : "false"}                                      
+                                        />
+
+                                    </div>
+
+                                    <div className="flex items-center align-middle space-y-2">
                                         <input
                                             type="checkbox"
                                             className="checkbox checkbox-info"

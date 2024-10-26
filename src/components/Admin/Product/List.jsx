@@ -3,6 +3,7 @@ import ROUTES from '../../../routes'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import Loader from '../../Loader';
+import { toast } from 'react-toastify';
 
 
 export default function List() {
@@ -71,6 +72,9 @@ export default function List() {
                 )
             );
             setEditingProduct(null);
+            toast.success("Product has updated Successfully", {
+                position: "top-right",
+            });
         } else {
             // Add new product
             try {
@@ -86,6 +90,10 @@ export default function List() {
                         console.log(data)
                         setIsFormVisible(false);
                     })
+
+                    toast.success("Product added Successfully", {
+                        position: "top-right",
+                    });
 
             } catch (err) {
                 console.log(err);
@@ -105,22 +113,24 @@ export default function List() {
 
     // Delete product
     const handleDeleteProduct = (id) => {
-        try {
-            fetch(`${import.meta.env.VITE_BASE_URL}/api/product/${id}`, {
-                method: 'DELETE'
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    setIsFormVisible(false);
+        if (confirm("Are you sure you want to delete?")) {
+            try {
+                fetch(`${import.meta.env.VITE_BASE_URL}/api/product/${id}`, {
+                    method: 'DELETE'
                 })
-
-        } catch (err) {
-            console.log(err);
-        } finally {
-            console.log(id);
-            setProducts(products && products.filter((product) => product._id != id));
-        }
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        setIsFormVisible(false);
+                    })
+    
+            } catch (err) {
+                console.log(err);
+            } finally {
+                console.log(id);
+                setProducts(products && products.filter((product) => product._id != id));
+            }
+        }        
     };
 
     return (
@@ -271,16 +281,16 @@ export default function List() {
                                     {/* <td className="p-2">{product.category}</td>
                                     <td className="p-2">{product.publisher}</td>
                                     <td className="p-2">{product.totalPages}</td> */}
-                                    <td className="p-2 text-center flex justify-between items-center">
+                                    <td className="p-2 text-center flex gap-2 items-center">
                                         <button
                                             onClick={() => handleEditProduct(product)}
-                                            className="bg-yellow-500 text-white py-1 px-3 mr-2 rounded"
+                                            className="bg-yellow-500 text-white py-2 px-3 mr-2 rounded"
                                         >
-                                            Edit
+                                            Edit & View
                                         </button>
                                         <button
                                             onClick={() => handleDeleteProduct(product._id)}
-                                            className="bg-red-500 text-white py-1 px-3 rounded"
+                                            className="bg-red-500 text-white py-2 px-3 rounded"
                                         >
                                             Delete
                                         </button>

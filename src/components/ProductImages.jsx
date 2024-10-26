@@ -17,7 +17,7 @@ const ProductImages = () => {
     return (
         <section className="product-images py-12 bg-white">
             <div className="w-full sm:w-full md:w-11/12 mx-auto px-8 sm:px-8 md:px-0 text-center">
-                <h2 className="text-4xl font-bold text-gray-800 mb-8">Category</h2>
+                <h2 className="text-4xl font-bold text-gray-800 mb-8">Categories</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
                     {
                         data.map((item, i) => (                            

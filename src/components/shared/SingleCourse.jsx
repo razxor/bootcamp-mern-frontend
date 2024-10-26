@@ -33,7 +33,7 @@ const SingleCourse = (props) => {
                                 readonly
                             //onChange={(rate) => console.log(rate)}
                             />
-                            <div className="badge badge-accent badge-outline py-2 my-2">{book.category}</div>
+                            <div className="badge badge-accent badge-outline py-2 my-2 text-xs">{book.category}</div>
                         </div>
                     </div>
 

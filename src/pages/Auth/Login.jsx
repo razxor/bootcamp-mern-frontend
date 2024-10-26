@@ -12,6 +12,7 @@ export const Login = () => {
     const location = useLocation();
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
     const onSubmit = async payload => {
         try {
             const { email, password } = payload
@@ -40,7 +41,7 @@ export const Login = () => {
                     if (data.user.isAdmin) {
                         navigate( ROUTES.ADMIN_DASHBOARD)
                     } else {
-                        navigate(ROUTES.USER_DASHBOARD)
+                        navigate(location?.state ? location.state : ROUTES.HOME)
                     }                    
                 })
                 .catch((error) => {
@@ -52,31 +53,7 @@ export const Login = () => {
         } finally {
             //setLoading(false);
         }
-    }
-
-    const handleLogin = (event) => {
-        event.preventDefault();
-
-        const form = new FormData(event.currentTarget);
-        //console.log(form);
-
-        const email = form.get("email");
-        const password = form.get("password");
-        //console.log(email, password);
-
-        signIn(email, password)
-            .then((result) => {
-                console.log(result.user);
-                toast.success("User Login Successful", {
-                    position: "top-right",
-                });
-                navigate(location?.state ? location.state : ROUTES.COURSES);
-            })
-            .catch((error) => {
-                console.log(error);
-                setSerror(error.message)
-            });
-    };
+    }  
 
     const handleGoogleLogin = () => {
         loginWithGoogle()
@@ -177,7 +154,7 @@ export const Login = () => {
                                     </div>
                                 </div>
                             </form>
-                            <div className='py-4'>
+                            {/* <div className='py-4'>
                                 <button type="button" onClick={handleGoogleLogin} className="w-full flex justify-center bg-red-400  hover:bg-red-500 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
                                     Login with Google
                                 </button>
@@ -186,7 +163,7 @@ export const Login = () => {
                                 <button type="button" onClick={handleGitHubSignin} className="w-full flex justify-center bg-gray-500  hover:bg-gray-700 text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
                                     Login with Github
                                 </button>
-                            </div>
+                            </div> */}
                             <div className="mt-2 text-center dark:text-gray-200">
                                 Don't have an account? &nbsp;
                                 <Link
